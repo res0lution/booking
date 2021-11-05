@@ -4,14 +4,21 @@ import APIFeatures from "../utils/apiFeatures";
 import ErrorHandler from "../utils/errorHandler";
 
 const allRooms = catchAsyncError(async (req, res) => {
+  const resPerPage = 4
+  const roomsCount = await Room.countDocuments()
+  const apiFeatures = new APIFeatures(Room.find(), req.query).search().filter();
 
-  const apiFeatures = new APIFeatures(Room.find(), req.query).search()
-  
-  const rooms = await apiFeatures.query;
+  let rooms = await apiFeatures.query;
+  let filteredRoomsCount = rooms.length
+
+  apiFeatures.pagination(resPerPage)
+  rooms = await apiFeatures.query;
 
   res.status(200).json({
     success: true,
-    count: rooms.length,
+    roomsCount,
+    resPerPage,
+    filteredRoomsCount,
     rooms,
   });
 });
