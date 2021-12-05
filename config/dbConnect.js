@@ -8,7 +8,12 @@ const dbConnect = async () => {
       return;
     }
 
-    await connect(process.env.DB_LOCAL_URI);
+    await connect(process.env.DB_LOCAL_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+      useCreateIndex: true,
+    });
     console.log("Connected to local database");
   } catch (error) {
     console.error(error);

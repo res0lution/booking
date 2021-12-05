@@ -1,17 +1,21 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-const Search = ({ room }) => {
+const Search = () => {
   const [location, setLocation] = useState("");
+  const [guests, setGuests] = useState("");
+  const [category, setCategory] = useState("");
   const router = useRouter();
 
   const submitHandler = (e) => {
     e.preventDefault();
 
     if (location.trim()) {
-      router.push(`/?location=${location}`);
+      router.push(
+        `/?location=${location}&guests=${guests}&category=${category}`
+      );
     } else {
-      router.push();
+      router.push('/');
     }
   };
   return (
@@ -34,21 +38,33 @@ const Search = ({ room }) => {
 
             <div className="form-group">
               <label forHtml="guest_field">No. of Guests</label>
-              <select className="form-control" id="guest_field" value="">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+              <select
+                className="form-control"
+                id="guest_field"
+                value={guests}
+                onChange={(e) => setGuests(e.target.value)}
+              >
+                {[1, 2, 3, 4, 5, 6].map((num) => (
+                  <option key={num} value={num}>
+                    {num}
+                  </option>
+                ))}
               </select>
             </div>
 
             <div className="form-group">
               <label forHtml="room_type_field">Room Type</label>
-              <select className="form-control" id="room_type_field" value="">
-                <option>King</option>
-                <option>Single</option>
-                <option>Twins</option>
+              <select
+                className="form-control"
+                id="room_type_field"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                {["King", "Single", "Twins"].map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
               </select>
             </div>
 
