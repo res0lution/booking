@@ -6,5 +6,10 @@ module.exports = {
     CLOUDINARY_CLOUD_NAME: "",
     CLOUDINARY_API_KEY: "",
     CLOUDINARY_SECRET_KEY: "",
+    SMTP_HOST: "",
+    SMTP_PORT: "",
+    SMTP_USER: "",
+    SMTP_PASSWORD: "",
+    SMTP_NAME: "Book IT"
   },
 };
