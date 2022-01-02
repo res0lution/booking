@@ -1,3 +1,5 @@
+import React from "react";
+
 const RoomFeatures = ({ room }) => {
   return (
     <div className="features mt-5">
@@ -21,7 +23,7 @@ const RoomFeatures = ({ room }) => {
           }
           aria-hidden="true"
         ></i>
-        <p>Breackfast</p>
+        <p>Breakfast</p>
       </div>
 
       <div className="room-feature">

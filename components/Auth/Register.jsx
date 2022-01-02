@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import Image from "next/image";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-import ButtonLoader from "../Layout/ButtonLoader";
-import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
+
+import ButtonLoader from "../layout/ButtonLoader";
+
 import { registerUser, clearErrors } from "../../redux/actions/userActions";
 
 const Register = () => {
@@ -26,7 +28,9 @@ const Register = () => {
   const { success, error, loading } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (success) router.push("/login");
+    if (success) {
+      router.push("/login");
+    }
 
     if (error) {
       toast.error(error);
@@ -34,7 +38,7 @@ const Register = () => {
     }
   }, [dispatch, success, error, router]);
 
-  const submitHandler = async (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
 
     const userData = {
@@ -115,8 +119,8 @@ const Register = () => {
                     <Image
                       src={avatarPreview}
                       className="rounded-circle"
-                      width="150px"
-                      height="150px"
+                      width={150}
+                      height={150}
                       alt="image"
                     />
                   </figure>
@@ -127,6 +131,7 @@ const Register = () => {
                     name="avatar"
                     className="custom-file-input"
                     id="customFile"
+                    accept="images/*"
                     onChange={onChange}
                   />
                   <label className="custom-file-label" htmlFor="customFile">

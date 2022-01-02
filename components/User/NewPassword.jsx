@@ -1,19 +1,17 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { toast } from "react-toastify";
-import ButtonLoader from "../Layout/ButtonLoader";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  clearErrors,
-  resetPassword,
-} from "../../redux/actions/userActions";
+import { toast } from "react-toastify";
+
+import ButtonLoader from "../layout/ButtonLoader";
+import { resetPassword, clearErrors } from "../../redux/actions/userActions";
 
 const NewPassword = () => {
-  const dispatch = useDispatch();
-  const router = useRouter();
-
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const { error, loading, success } = useSelector(
     (state) => state.forgotPassword
@@ -30,7 +28,7 @@ const NewPassword = () => {
     }
   }, [dispatch, success, error, router]);
 
-  const submitHandler = async (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
 
     const passwords = {

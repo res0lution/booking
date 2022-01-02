@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { toast } from "react-toastify";
-import ButtonLoader from "../Layout/ButtonLoader";
-import { signIn } from "next-auth/client"
+import React, { useState } from "react";
 import Link from "next/link";
+import { signIn } from "next-auth/client";
+import { toast } from "react-toastify";
+
+import ButtonLoader from "../layout/ButtonLoader";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -11,12 +12,13 @@ const Login = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
     setLoading(true);
 
     const result = await signIn("credentials", {
       redirect: false,
-      password,
       email,
+      password,
     });
 
     setLoading(false);

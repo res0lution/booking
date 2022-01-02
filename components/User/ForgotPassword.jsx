@@ -1,16 +1,14 @@
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import ButtonLoader from "../Layout/ButtonLoader";
-import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { clearErrors, forgotPassword } from "../../redux/actions/userActions";
-import Loader from "../Layout/Loader";
+
+import ButtonLoader from "../layout/ButtonLoader";
+import { forgotPassword, clearErrors } from "../../redux/actions/userActions";
 
 const ForgotPassword = () => {
-  const dispatch = useDispatch();
-
   const [email, setEmail] = useState("");
+
+  const dispatch = useDispatch();
 
   const { error, loading, message } = useSelector(
     (state) => state.forgotPassword
@@ -27,7 +25,7 @@ const ForgotPassword = () => {
     }
   }, [dispatch, message, error]);
 
-  const submitHandler = async (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
 
     const userData = {
@@ -49,7 +47,7 @@ const ForgotPassword = () => {
               id="email_field"
               className="form-control"
               value={email}
-              onChange={(e = setEmail(e.target.value))}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 

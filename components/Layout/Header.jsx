@@ -2,34 +2,37 @@ import React, { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
+import { signOut } from "next-auth/client";
+import { NavDropdown } from "react-bootstrap";
+
 import { loadUser } from "../../redux/actions/userActions";
-import { signOut } from "next-auth/client"
-import { NavDropdown } from "react-bootstrap"
 
 const Header = () => {
   const dispatch = useDispatch();
 
-  const { user, loading } = useSelector((state) => state.auth);
+  const { user, loading } = useSelector((state) => state.loadedUser);
 
   useEffect(() => {
-    dispatch(loadUser());
-  }, [dispatch]);
+    if (!user) {
+      dispatch(loadUser());
+    }
+  }, [dispatch, user]);
 
   const logoutHandler = () => {
-    signOut()
-  }
+    signOut();
+  };
 
   return (
     <nav className="navbar row justify-content-center sticky-top">
       <div className="container">
         <div className="col-3 p-0">
-          <div className="navbar-brand" style={{ cursor: "pointer" }}>
+          <div className="navbar-brand">
             <Link href="/">
               <Image
                 src="/images/bookit_logo.png"
                 alt="BookIT"
-                width="145"
-                height="35"
+                width={145}
+                height={35}
               />
             </Link>
           </div>
@@ -43,8 +46,8 @@ const Header = () => {
                   src={user.avatar && user.avatar.url}
                   alt={user && user.name}
                   className="rounded-circle"
-                  width="30px"
-                  height="30px"
+                  width={30}
+                  height={30}
                 />
               </figure>
               <NavDropdown
@@ -52,6 +55,34 @@ const Header = () => {
                 title={user && user.name}
                 menuVariant="dark"
               >
+                {user.role === "admin" && (
+                  <>
+                    <NavDropdown.Item href="#action/3.1">
+                      <Link href="/admin/rooms">
+                        <a className="dropdown-item">Rooms</a>
+                      </Link>
+                    </NavDropdown.Item>
+
+                    <NavDropdown.Item href="#action/3.1">
+                      <Link href="/admin/bookings">
+                        <a className="dropdown-item">Bookings</a>
+                      </Link>
+                    </NavDropdown.Item>
+
+                    <NavDropdown.Item href="#action/3.1">
+                      <Link href="/admin/users">
+                        <a className="dropdown-item">Users</a>
+                      </Link>
+                    </NavDropdown.Item>
+
+                    <NavDropdown.Item href="#action/3.1">
+                      <Link href="/admin/reviews">
+                        <a className="dropdown-item">Reviews</a>
+                      </Link>
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider />
+                  </>
+                )}
                 <NavDropdown.Item href="#action/3.1">
                   <Link href="/bookings/me">
                     <a className="dropdown-item">My Bookings</a>
@@ -62,7 +93,6 @@ const Header = () => {
                     <a className="dropdown-item">Profile</a>
                   </Link>
                 </NavDropdown.Item>
-                <NavDropdown.Divider />
                 <NavDropdown.Item href="#action/3.1">
                   <Link href="/" onClick={logoutHandler}>
                     <a className="dropdown-item">Logout</a>

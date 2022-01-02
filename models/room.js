@@ -1,16 +1,16 @@
-const { Schema, model, models } = require("mongoose");
+const mongoose = require("mongoose");
 
-const roomSchema = new Schema({
+const roomSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Please enter room name"],
     trim: true,
-    maxlength: [100, "Room name cannot exceed 100 characters"],
+    maxLength: [100, "Room name cannot exceed 100 characters"],
   },
   pricePerNight: {
     type: Number,
     required: [true, "Please enter room price per night"],
-    maxlength: [4, "Room price cannot exceed 4 characters"],
+    maxLength: [4, "Room name cannot exceed 4 characters"],
     default: 0.0,
   },
   description: {
@@ -22,12 +22,12 @@ const roomSchema = new Schema({
     required: [true, "Please enter room address"],
   },
   guestCapacity: {
-    type: String,
+    type: Number,
     required: [true, "Please enter room guest capacity"],
   },
   numOfBeds: {
     type: Number,
-    required: [true, "Please enter number of beds in the room"],
+    required: [true, "Please enter number of beds in room"],
   },
   internet: {
     type: Boolean,
@@ -53,7 +53,7 @@ const roomSchema = new Schema({
     type: Number,
     default: 0,
   },
-  numsOfReviews: {
+  numOfReviews: {
     type: Number,
     default: 0,
   },
@@ -74,13 +74,13 @@ const roomSchema = new Schema({
     required: [true, "Please enter room category"],
     enum: {
       values: ["King", "Single", "Twins"],
-      message: "Please select category for room",
+      message: "Please select correct category for room",
     },
   },
   reviews: [
     {
       user: {
-        type: Schema.ObjectId,
+        type: mongoose.Schema.ObjectId,
         ref: "User",
         required: true,
       },
@@ -99,7 +99,7 @@ const roomSchema = new Schema({
     },
   ],
   user: {
-    type: Schema.ObjectId,
+    type: mongoose.Schema.ObjectId,
     ref: "User",
     required: false,
   },
@@ -109,6 +109,4 @@ const roomSchema = new Schema({
   },
 });
 
-module.exports = models.Room || model("Room", roomSchema)
-
-
+module.exports = mongoose.models.Room || mongoose.model("Room", roomSchema);

@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
+import Image from "next/image";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-import ButtonLoader from "../Layout/ButtonLoader";
-import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { clearErrors, updateProfile } from "../../redux/actions/userActions";
+
+import ButtonLoader from "../layout/ButtonLoader";
+import Loader from "../layout/Loader";
+import { updateProfile, clearErrors } from "../../redux/actions/userActions";
 import { UPDATE_PROFILE_RESET } from "../../redux/constants/userConstants";
-import Loader from "../Layout/Loader";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -25,12 +26,14 @@ const Profile = () => {
     "/images/default_avatar.jpg"
   );
 
-  const { user: loadedUser, loading } = useSelector((state) => state.auth);
+  const { user: loadedUser, loading } = useSelector(
+    (state) => state.loadedUser
+  );
   const {
     error,
     isUpdated,
     loading: updateLoading,
-  } = useSelector((state) => state.auth);
+  } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (loadedUser) {
@@ -52,7 +55,7 @@ const Profile = () => {
     }
   }, [dispatch, isUpdated, error, loadedUser, router]);
 
-  const submitHandler = async (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
 
     const userData = {
@@ -94,7 +97,7 @@ const Profile = () => {
                 <h1 className="mb-3">Update Profile</h1>
 
                 <div className="form-group">
-                  <label htmlFor="name_field">Full Name</label>
+                  <label htmlFor="name_field">Name</label>
                   <input
                     type="text"
                     id="name_field"
@@ -137,8 +140,8 @@ const Profile = () => {
                         <Image
                           src={avatarPreview}
                           className="rounded-circle"
-                          width="150px"
-                          height="150px"
+                          width={150}
+                          height={150}
                           alt="image"
                         />
                       </figure>
@@ -149,6 +152,7 @@ const Profile = () => {
                         name="avatar"
                         className="custom-file-input"
                         id="customFile"
+                        accept="images/*"
                         onChange={onChange}
                       />
                       <label className="custom-file-label" htmlFor="customFile">
